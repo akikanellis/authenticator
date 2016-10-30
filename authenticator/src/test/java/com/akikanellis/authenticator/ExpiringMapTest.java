@@ -3,8 +3,7 @@ package com.akikanellis.authenticator;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -96,5 +95,15 @@ public class ExpiringMapTest {
         expiringMap.clear();
 
         assertThat(expiringMap).isEmpty();
+    }
+
+    @Test public void gettingKeySet_returnsASetOfAllKeys(){
+        expiringMap.put("key1", 1);
+        expiringMap.put("key2", 2);
+        expiringMap.put("key3", 3);
+
+        Set<String> actualKeySet = expiringMap.keySet();
+
+        assertThat(actualKeySet).containsExactly("key1", "key2", "key3");
     }
 }

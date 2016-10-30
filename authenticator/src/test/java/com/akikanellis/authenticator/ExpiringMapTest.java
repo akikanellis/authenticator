@@ -87,4 +87,14 @@ public class ExpiringMapTest {
 
         assertThat(expiringMap.size()).isZero();
     }
+
+    @Test public void clear_removesAllElements(){
+        expiringMap.put("key1", 1);
+        expiringMap.put("key2", 2);
+        expiringMap.put("key3", 3);
+
+        expiringMap.clear();
+
+        assertThat(expiringMap).isEmpty();
+    }
 }

@@ -14,7 +14,7 @@ public class ExpiringMapTest {
 
     @Test public void interfaceOfExpiringMap_isMap() { assertThat(expiringMap).isInstanceOf(Map.class); }
 
-    @Test public void addingElements_addsToInternalMap() {
+    @Test public void addingElements_addsToMap() {
         expiringMap.put("key", 1);
 
         assertThat(expiringMap.get("key")).isEqualTo(1);

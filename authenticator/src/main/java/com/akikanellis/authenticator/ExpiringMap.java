@@ -14,13 +14,9 @@ class ExpiringMap<K, V> implements Map<K, V> {
 
     @Override public boolean isEmpty() { return map.isEmpty(); }
 
-    @Override public boolean containsKey(Object key) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    @Override public boolean containsKey(Object key) { return map.containsKey(key); }
 
-    @Override public boolean containsValue(Object value) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    @Override public boolean containsValue(Object value) { return map.containsValue(value); }
 
     @Override public V get(Object key) { return map.get(key); }
 

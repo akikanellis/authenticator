@@ -28,13 +28,31 @@ public class ExpiringMapTest {
         assertThat(expiringMap.size()).isEqualTo(3);
     }
 
-    @Test public void isEmpty_whenEmpty_returnsTrue() {
-        assertThat(expiringMap.isEmpty()).isTrue();
-    }
+    @Test public void isEmpty_whenEmpty_returnsTrue() { assertThat(expiringMap.isEmpty()).isTrue(); }
 
     @Test public void isEmpty_whenNotEmpty_returnsFalse() {
         expiringMap.put("key", 1);
 
         assertThat(expiringMap.isEmpty()).isFalse();
+    }
+
+    @Test public void containsKey_withKeyPresent_returnsTrue() {
+        expiringMap.put("key", 1);
+
+        assertThat(expiringMap.containsKey("key")).isTrue();
+    }
+
+    @Test public void containsKey_withKeyMissing_returnsFalse() {
+        assertThat(expiringMap.containsKey("key")).isFalse();
+    }
+
+    @Test public void containsValue_withValuePresent_returnsTrue() {
+        expiringMap.put("key", 1);
+
+        assertThat(expiringMap.containsValue(1)).isTrue();
+    }
+
+    @Test public void containsKey_withValueMissing_returnsFalse() {
+        assertThat(expiringMap.containsValue(1)).isFalse();
     }
 }

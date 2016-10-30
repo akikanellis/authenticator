@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.OptionalInt;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,5 +36,11 @@ public class PasswordRepositoryTest {
 
         //noinspection OptionalGetWithoutIsPresent
         assertThat(password).isEmpty();
+    }
+
+    @Test public void addingPasswordForUser_addsPassword() {
+        passwordRepository.addPassword("user-id", 1);
+
+        verify(expiringMap).put("user-id", 1);
     }
 }

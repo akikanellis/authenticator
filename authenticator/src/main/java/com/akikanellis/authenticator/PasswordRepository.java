@@ -13,4 +13,6 @@ class PasswordRepository {
 
         return password == null ? OptionalInt.empty() : OptionalInt.of(password);
     }
+
+    void addPassword(String userId, int password) { expiringMap.put(userId, password); }
 }

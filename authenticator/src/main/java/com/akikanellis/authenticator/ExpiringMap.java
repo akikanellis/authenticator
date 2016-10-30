@@ -4,11 +4,21 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 class ExpiringMap<K, V> implements Map<K, V> {
     private final Map<K, V> map;
+    private final ScheduledExecutorService expirer;
+    private final long expiringDelay;
+    private final TimeUnit timeUnit;
 
-    ExpiringMap() { this.map = new ConcurrentHashMap<>(); }
+    ExpiringMap(ScheduledExecutorService expirer, long expiringDelay, TimeUnit timeUnit) {
+        this.map = new ConcurrentHashMap<>();
+        this.expirer = expirer;
+        this.expiringDelay = expiringDelay;
+        this.timeUnit = timeUnit;
+    }
 
     @Override public int size() { return map.size(); }
 
@@ -20,7 +30,12 @@ class ExpiringMap<K, V> implements Map<K, V> {
 
     @Override public V get(Object key) { return map.get(key); }
 
-    @Override public V put(K key, V value) { return map.put(key, value); }
+    @Override public V put(K key, V value) {
+        V previousValue = map.put(key, value);
+        expirer.schedule((Runnable) () -> map.remove(key), expiringDelay, timeUnit);
+
+        return previousValue;
+    }
 
     @Override public V remove(Object key) { return map.remove(key); }
 

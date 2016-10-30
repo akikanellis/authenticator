@@ -2,16 +2,34 @@ package com.akikanellis.authenticator;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ExpiringMapTest {
+    @Mock private ScheduledExecutorService expirer;
     private ExpiringMap<String, Integer> expiringMap;
+    private long expiringDelay;
+    private TimeUnit timeUnit;
 
-    @Before public void beforeEach() { expiringMap = new ExpiringMap<>(); }
+    @Before public void beforeEach() {
+        expiringDelay = 1;
+        timeUnit = SECONDS;
+        expiringMap = new ExpiringMap<>(expirer, expiringDelay, timeUnit);
+    }
 
     @Test public void interfaceOfExpiringMap_isMap() { assertThat(expiringMap).isInstanceOf(Map.class); }
 
@@ -88,7 +106,7 @@ public class ExpiringMapTest {
         assertThat(expiringMap).isEmpty();
     }
 
-    @Test public void clear_removesAllElements(){
+    @Test public void clear_removesAllElements() {
         putThreeEntries();
 
         expiringMap.clear();
@@ -96,19 +114,19 @@ public class ExpiringMapTest {
         assertThat(expiringMap).isEmpty();
     }
 
-    @Test public void gettingKeySet_returnsASetOfAllKeys(){
+    @Test public void gettingKeySet_returnsASetOfAllKeys() {
         putThreeEntries();
 
         assertThat(expiringMap.keySet()).containsExactly("key1", "key2", "key3");
     }
 
-    @Test public void gettingValues_returnsACollectionOfAllValues(){
+    @Test public void gettingValues_returnsACollectionOfAllValues() {
         putThreeEntries();
 
         assertThat(expiringMap.values()).containsExactly(1, 2, 3);
     }
 
-    @Test public void gettingEntrySet_returnsASetOfAllEntries(){
+    @Test public void gettingEntrySet_returnsASetOfAllEntries() {
         putThreeEntries();
 
         //noinspection unchecked
@@ -117,6 +135,12 @@ public class ExpiringMapTest {
                 new SimpleEntry<>("key2", 2),
                 new SimpleEntry<>("key3", 3)
         );
+    }
+
+    @Test public void puttingOneEntry_addsItToTheExpiryQueue() {
+        putSingleEntry();
+
+        verify(expirer).schedule(any(Runnable.class), eq(expiringDelay), eq(timeUnit));
     }
 
     private void putThreeEntries() {

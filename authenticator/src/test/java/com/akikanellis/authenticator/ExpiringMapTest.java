@@ -16,7 +16,7 @@ public class ExpiringMapTest {
     @Test public void interfaceOfExpiringMap_isMap() { assertThat(expiringMap).isInstanceOf(Map.class); }
 
     @Test public void addingElements_addsToMap() {
-        expiringMap.put("key", 1);
+        putSingleEntry();
 
         assertThat(expiringMap.get("key")).isEqualTo(1);
     }
@@ -24,9 +24,7 @@ public class ExpiringMapTest {
     @Test public void gettingElement_withElementMissing_returnsNull() { assertThat(expiringMap.get("key")).isNull(); }
 
     @Test public void size_withElements_returnsCorrectSize() {
-        expiringMap.put("key1", 1);
-        expiringMap.put("key2", 2);
-        expiringMap.put("key3", 3);
+        putThreeEntries();
 
         assertThat(expiringMap.size()).isEqualTo(3);
     }
@@ -36,13 +34,13 @@ public class ExpiringMapTest {
     @Test public void isEmpty_whenEmpty_returnsTrue() { assertThat(expiringMap.isEmpty()).isTrue(); }
 
     @Test public void isEmpty_whenNotEmpty_returnsFalse() {
-        expiringMap.put("key", 1);
+        putSingleEntry();
 
         assertThat(expiringMap.isEmpty()).isFalse();
     }
 
     @Test public void containsKey_withKeyPresent_returnsTrue() {
-        expiringMap.put("key", 1);
+        putSingleEntry();
 
         assertThat(expiringMap.containsKey("key")).isTrue();
     }
@@ -52,7 +50,7 @@ public class ExpiringMapTest {
     }
 
     @Test public void containsValue_withValuePresent_returnsTrue() {
-        expiringMap.put("key", 1);
+        putSingleEntry();
 
         assertThat(expiringMap.containsValue(1)).isTrue();
     }
@@ -62,10 +60,12 @@ public class ExpiringMapTest {
     }
 
     @Test public void remove_withKeyPresent_returnsValue() {
-        expiringMap.put("key", 1);
+        putSingleEntry();
 
         assertThat(expiringMap.remove("key")).isEqualTo(1);
     }
+
+    private void putSingleEntry() {expiringMap.put("key", 1);}
 
     @Test public void remove_withKeyMissing_returnsNull() { assertThat(expiringMap.remove("key")).isNull(); }
 
@@ -89,9 +89,7 @@ public class ExpiringMapTest {
     }
 
     @Test public void clear_removesAllElements(){
-        expiringMap.put("key1", 1);
-        expiringMap.put("key2", 2);
-        expiringMap.put("key3", 3);
+        putThreeEntries();
 
         expiringMap.clear();
 
@@ -99,9 +97,7 @@ public class ExpiringMapTest {
     }
 
     @Test public void gettingKeySet_returnsASetOfAllKeys(){
-        expiringMap.put("key1", 1);
-        expiringMap.put("key2", 2);
-        expiringMap.put("key3", 3);
+        putThreeEntries();
 
         Set<String> actualKeySet = expiringMap.keySet();
 
@@ -109,9 +105,7 @@ public class ExpiringMapTest {
     }
 
     @Test public void gettingValues_returnsACollectionOfAllValues(){
-        expiringMap.put("key1", 1);
-        expiringMap.put("key2", 2);
-        expiringMap.put("key3", 3);
+        putThreeEntries();
 
         Collection<Integer> values = expiringMap.values();
 
@@ -119,9 +113,7 @@ public class ExpiringMapTest {
     }
 
     @Test public void gettingEntrySet_returnsASetOfAllEntries(){
-        expiringMap.put("key1", 1);
-        expiringMap.put("key2", 2);
-        expiringMap.put("key3", 3);
+        putThreeEntries();
 
         Set<Map.Entry<String, Integer>> values = expiringMap.entrySet();
 
@@ -131,5 +123,11 @@ public class ExpiringMapTest {
                 new SimpleEntry<>("key2", 2),
                 new SimpleEntry<>("key3", 3)
         );
+    }
+
+    private void putThreeEntries() {
+        expiringMap.put("key1", 1);
+        expiringMap.put("key2", 2);
+        expiringMap.put("key3", 3);
     }
 }

@@ -20,6 +20,10 @@ public class ExpiringMapTest {
         assertThat(expiringMap.get("key")).isEqualTo(1);
     }
 
+    @Test public void gettingElement_withElementMissing_returnsNull() {
+        assertThat(expiringMap.get("key")).isNull();
+    }
+
     @Test public void size_returnsCorrectSize() {
         expiringMap.put("key1", 1);
         expiringMap.put("key2", 2);

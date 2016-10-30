@@ -3,8 +3,12 @@ package com.akikanellis.authenticator;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 class ExpiringMap<K, V> implements Map<K, V> {
+    private final Map<K, V> map;
+
+    ExpiringMap() { this.map = new ConcurrentHashMap<>(); }
 
     @Override public int size() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -22,13 +26,9 @@ class ExpiringMap<K, V> implements Map<K, V> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override public V get(Object key) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    @Override public V get(Object key) { return map.get(key); }
 
-    @Override public V put(K key, V value) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    @Override public V put(K key, V value) { return map.put(key, value); }
 
     @Override public V remove(Object key) {
         throw new UnsupportedOperationException("Not supported yet.");

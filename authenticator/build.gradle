@@ -2,6 +2,7 @@ group 'com.akikanellis.authenticator'
 version '0.1'
 
 apply plugin: 'java'
+apply from: rootProject.file('scripts/extra_tests.gradle')
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

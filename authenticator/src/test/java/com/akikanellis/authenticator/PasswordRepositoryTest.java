@@ -27,4 +27,13 @@ public class PasswordRepositoryTest {
         //noinspection OptionalGetWithoutIsPresent
         assertThat(password.getAsInt()).isEqualTo(1);
     }
+
+    @Test public void gettingPasswordOfUser_withMissingUser_returnsEmpty() {
+        when(expiringMap.get("user-id")).thenReturn(null);
+
+        OptionalInt password = passwordRepository.getPasswordOfUser("user-id");
+
+        //noinspection OptionalGetWithoutIsPresent
+        assertThat(password).isEmpty();
+    }
 }

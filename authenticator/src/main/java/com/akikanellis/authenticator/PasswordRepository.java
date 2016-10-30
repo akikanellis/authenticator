@@ -11,6 +11,6 @@ class PasswordRepository {
     OptionalInt getPasswordOfUser(String userId) {
         Integer password = expiringMap.get(userId);
 
-        return OptionalInt.of(password);
+        return password == null ? OptionalInt.empty() : OptionalInt.of(password);
     }
 }

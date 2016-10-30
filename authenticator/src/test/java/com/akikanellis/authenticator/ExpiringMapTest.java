@@ -3,6 +3,7 @@ package com.akikanellis.authenticator;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -71,4 +72,23 @@ public class ExpiringMapTest {
     }
 
     @Test public void remove_withKeyMissing_returnsNull() { assertThat(expiringMap.remove("key")).isNull(); }
+
+    @Test public void addingAllElements_withElementsPresent_addsThemAll() {
+        Map<String, Integer> otherMap = new HashMap<>();
+        otherMap.put("key1", 1);
+        otherMap.put("key2", 2);
+        otherMap.put("key3", 3);
+
+        expiringMap.putAll(otherMap);
+
+        assertThat(expiringMap).containsAllEntriesOf(otherMap);
+    }
+
+    @Test public void addingAllElements_withNoElements_doesNothing() {
+        Map<String, Integer> otherMap = new HashMap<>();
+
+        expiringMap.putAll(otherMap);
+
+        assertThat(expiringMap.size()).isZero();
+    }
 }

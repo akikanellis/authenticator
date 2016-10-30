@@ -24,9 +24,7 @@ class ExpiringMap<K, V> implements Map<K, V> {
 
     @Override public V remove(Object key) { return map.remove(key); }
 
-    @Override public void putAll(Map<? extends K, ? extends V> m) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    @Override public void putAll(Map<? extends K, ? extends V> otherMap) { map.putAll(otherMap); }
 
     @Override public void clear() {
         throw new UnsupportedOperationException("Not supported yet.");

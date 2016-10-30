@@ -10,13 +10,9 @@ class ExpiringMap<K, V> implements Map<K, V> {
 
     ExpiringMap() { this.map = new ConcurrentHashMap<>(); }
 
-    @Override public int size() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    @Override public int size() { return map.size(); }
 
-    @Override public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    @Override public boolean isEmpty() { return map.isEmpty(); }
 
     @Override public boolean containsKey(Object key) {
         throw new UnsupportedOperationException("Not supported yet.");

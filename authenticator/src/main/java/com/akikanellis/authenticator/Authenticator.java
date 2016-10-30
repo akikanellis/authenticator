@@ -17,7 +17,7 @@ public class Authenticator {
         return generator.generate(userId);
     }
 
-    public boolean validate(String userId, int passwordToValidate) {
+    public boolean isPasswordValid(String userId, int passwordToValidate) {
         checkNotNullOrEmpty(userId);
 
         return validator.validate(userId, passwordToValidate);

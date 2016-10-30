@@ -41,7 +41,7 @@ public class AuthenticatorTest {
     @Test public void validatingUserWithPassword_withValidUserIDAndSamePassword_returnsTrue() {
         when(validator.validate("user-id", 1)).thenReturn(true);
 
-        boolean isValid = authenticator.validate("user-id", 1);
+        boolean isValid = authenticator.isPasswordValid("user-id", 1);
 
         assertThat(isValid).isTrue();
     }
@@ -49,18 +49,18 @@ public class AuthenticatorTest {
     @Test public void validatingUserWithPassword_withValidUserIDAndDifferentPassword_returnsFalse() {
         when(validator.validate(eq("user-id"), anyInt())).thenReturn(false);
 
-        boolean isValid = authenticator.validate("user-id", 15);
+        boolean isValid = authenticator.isPasswordValid("user-id", 15);
 
         assertThat(isValid).isFalse();
     }
 
     @Test public void validatingUserWithPassword_withNullUserID_throwsException() {
         assertThatExceptionOfType(NullPointerException.class)
-                .isThrownBy(() -> authenticator.validate(null, 1));
+                .isThrownBy(() -> authenticator.isPasswordValid(null, 1));
     }
 
     @Test public void validatingUserWithPassword_withEmptyUserID_throwsException() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> authenticator.validate("", 1));
+                .isThrownBy(() -> authenticator.isPasswordValid("", 1));
     }
 }

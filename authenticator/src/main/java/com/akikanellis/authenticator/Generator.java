@@ -14,6 +14,12 @@ class Generator {
     int generate(String userId) {
         OptionalInt currentPassword = passwordRepository.getPasswordOfUser(userId);
 
-        return currentPassword.orElseGet(random::next);
+        if (currentPassword.isPresent()) {
+            return currentPassword.getAsInt();
+        } else {
+            int generatedPassword = random.next();
+            passwordRepository.addPassword(userId, generatedPassword);
+            return generatedPassword;
+        }
     }
 }

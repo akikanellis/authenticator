@@ -39,6 +39,12 @@ public class ExpiringMapTest {
         assertThat(expiringMap.get("key")).isEqualTo(1);
     }
 
+    @Test public void addingOneEntry_addsItToTheExpiryQueue() {
+        putSingleEntry();
+
+        verify(expirer).schedule(any(Runnable.class), eq(expiringDelay), eq(timeUnit));
+    }
+
     @Test public void gettingElement_withElementMissing_returnsNull() { assertThat(expiringMap.get("key")).isNull(); }
 
     @Test public void size_withElements_returnsCorrectSize() {
@@ -135,12 +141,6 @@ public class ExpiringMapTest {
                 new SimpleEntry<>("key2", 2),
                 new SimpleEntry<>("key3", 3)
         );
-    }
-
-    @Test public void puttingOneEntry_addsItToTheExpiryQueue() {
-        putSingleEntry();
-
-        verify(expirer).schedule(any(Runnable.class), eq(expiringDelay), eq(timeUnit));
     }
 
     private void putThreeEntries() {

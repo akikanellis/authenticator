@@ -1,1 +1,1 @@
-include ':authenticator'
+include ':authenticator', ':examples'

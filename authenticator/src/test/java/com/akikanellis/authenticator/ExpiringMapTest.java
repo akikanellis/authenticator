@@ -29,7 +29,7 @@ public class ExpiringMapTest {
         assertThat(expiringMap.size()).isEqualTo(3);
     }
 
-    @Test public void size_withNoElements_returnsZero() { assertThat(expiringMap).isEmpty(); }
+    @Test public void size_withNoElements_returnsZero() { assertThat(expiringMap.size()).isZero(); }
 
     @Test public void isEmpty_whenEmpty_returnsTrue() { assertThat(expiringMap.isEmpty()).isTrue(); }
 

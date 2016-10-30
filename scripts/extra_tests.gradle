@@ -5,6 +5,11 @@ sourceSets {
         compileClasspath += sourceSets.test.runtimeClasspath
         runtimeClasspath += sourceSets.test.runtimeClasspath
     }
+
+    stressTest {
+        compileClasspath += sourceSets.test.runtimeClasspath
+        runtimeClasspath += sourceSets.test.runtimeClasspath
+    }
 }
 
 task integrationTest(type: Test) {
@@ -15,9 +20,19 @@ task integrationTest(type: Test) {
     classpath = project.sourceSets.integrationTest.runtimeClasspath
 }
 
-tasks.withType(Test) {
-    reports.html.destination = file("${reporting.baseDir}/${name}")
+task stressTest(type: Test) {
+    group 'verification'
+    description = "Run the stress tests."
+
+    testClassesDir = project.sourceSets.stressTest.output.classesDir
+    classpath = project.sourceSets.stressTest.runtimeClasspath
 }
 
 check.dependsOn integrationTest
+check.dependsOn stressTest
 integrationTest.mustRunAfter test
+stressTest.mustRunAfter test
+
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}

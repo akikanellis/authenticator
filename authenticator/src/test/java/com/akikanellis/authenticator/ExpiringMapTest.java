@@ -99,26 +99,20 @@ public class ExpiringMapTest {
     @Test public void gettingKeySet_returnsASetOfAllKeys(){
         putThreeEntries();
 
-        Set<String> actualKeySet = expiringMap.keySet();
-
-        assertThat(actualKeySet).containsExactly("key1", "key2", "key3");
+        assertThat(expiringMap.keySet()).containsExactly("key1", "key2", "key3");
     }
 
     @Test public void gettingValues_returnsACollectionOfAllValues(){
         putThreeEntries();
 
-        Collection<Integer> values = expiringMap.values();
-
-        assertThat(values).containsExactly(1, 2, 3);
+        assertThat(expiringMap.values()).containsExactly(1, 2, 3);
     }
 
     @Test public void gettingEntrySet_returnsASetOfAllEntries(){
         putThreeEntries();
 
-        Set<Map.Entry<String, Integer>> values = expiringMap.entrySet();
-
         //noinspection unchecked
-        assertThat(values).containsExactly(
+        assertThat(expiringMap.entrySet()).containsExactly(
                 new SimpleEntry<>("key1", 1),
                 new SimpleEntry<>("key2", 2),
                 new SimpleEntry<>("key3", 3)

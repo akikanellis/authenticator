@@ -1,5 +1,6 @@
 package com.akikanellis.authenticator;
 
+import java.util.OptionalInt;
 import java.util.Random;
 
 class Generator {
@@ -12,6 +13,8 @@ class Generator {
     }
 
     int generate(String userId) {
-        return random.nextInt();
+        OptionalInt currentPassword = passwordRepository.getPasswordOfUser(userId);
+
+        return currentPassword.orElseGet(random::nextInt);
     }
 }

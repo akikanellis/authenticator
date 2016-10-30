@@ -11,10 +11,15 @@ public class Authenticator {
         this.validator = validator;
     }
 
-
     public int generatePassword(String userId) {
         checkNotNullOrEmpty(userId);
 
         return generator.generate(userId);
+    }
+
+    public boolean validate(String userId, int passwordToValidate) {
+        checkNotNullOrEmpty(userId);
+
+        return validator.validate(userId, passwordToValidate);
     }
 }

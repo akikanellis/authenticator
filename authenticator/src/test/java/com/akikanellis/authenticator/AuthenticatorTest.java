@@ -8,6 +8,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -34,5 +36,31 @@ public class AuthenticatorTest {
     @Test public void generatingAPassword_withEmptyUserID_throwsException() {
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> authenticator.generatePassword(""));
+    }
+
+    @Test public void validatingUserWithPassword_withValidUserIDAndSamePassword_returnsTrue() {
+        when(validator.validate("user-id", 1)).thenReturn(true);
+
+        boolean isValid = authenticator.validate("user-id", 1);
+
+        assertThat(isValid).isTrue();
+    }
+
+    @Test public void validatingUserWithPassword_withValidUserIDAndDifferentPassword_returnsFalse() {
+        when(validator.validate(eq("user-id"), anyInt())).thenReturn(false);
+
+        boolean isValid = authenticator.validate("user-id", 15);
+
+        assertThat(isValid).isFalse();
+    }
+
+    @Test public void validatingUserWithPassword_withNullUserID_throwsException() {
+        assertThatExceptionOfType(NullPointerException.class)
+                .isThrownBy(() -> authenticator.validate(null, 1));
+    }
+
+    @Test public void validatingUserWithPassword_withEmptyUserID_throwsException() {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> authenticator.validate("", 1));
     }
 }

@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.OptionalInt;
-import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -15,7 +14,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GeneratorTest {
-    @Mock private Random random;
+    @Mock private SixDigitRandom random;
     @Mock private PasswordRepository passwordRepository;
     private Generator generator;
 
@@ -23,7 +22,7 @@ public class GeneratorTest {
 
     @Test public void generatingPassword_withNoSetPasswordForUser_generatesNewPassword() {
         when(passwordRepository.getPasswordOfUser("user-id")).thenReturn(OptionalInt.empty());
-        when(random.nextInt()).thenReturn(1);
+        when(random.next()).thenReturn(1);
 
         int password = generator.generate("user-id");
 

@@ -63,4 +63,12 @@ public class ExpiringMapTest {
     @Test public void containsKey_withValueMissing_returnsFalse() {
         assertThat(expiringMap.containsValue(1)).isFalse();
     }
+
+    @Test public void remove_withKeyPresent_returnsValue() {
+        expiringMap.put("key", 1);
+
+        assertThat(expiringMap.remove("key")).isEqualTo(1);
+    }
+
+    @Test public void remove_withKeyMissing_returnsNull() { assertThat(expiringMap.remove("key")).isNull(); }
 }

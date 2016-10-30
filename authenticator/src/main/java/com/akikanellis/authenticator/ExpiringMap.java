@@ -22,9 +22,7 @@ class ExpiringMap<K, V> implements Map<K, V> {
 
     @Override public V put(K key, V value) { return map.put(key, value); }
 
-    @Override public V remove(Object key) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    @Override public V remove(Object key) { return map.remove(key); }
 
     @Override public void putAll(Map<? extends K, ? extends V> m) {
         throw new UnsupportedOperationException("Not supported yet.");

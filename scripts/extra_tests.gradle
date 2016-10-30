@@ -1,4 +1,4 @@
-// Adds a source set for the integration tests as well as a corresponding task.
+// Adds source sets for the integration and stress tests as well as the corresponding tasks.
 
 sourceSets {
     integrationTest {
@@ -28,11 +28,21 @@ task stressTest(type: Test) {
     classpath = project.sourceSets.stressTest.runtimeClasspath
 }
 
-check.dependsOn integrationTest
-check.dependsOn stressTest
+task allTest(type: Test) {
+    group 'verification'
+    description = "Run all the tests."
+
+    dependsOn tasks.withType(Test).findAll { it != allTest }
+}
+
 integrationTest.mustRunAfter test
-stressTest.mustRunAfter test
+stressTest.mustRunAfter integrationTest
 
 tasks.withType(Test) {
+    check.dependsOn it
+
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
     reports.html.destination = file("${reporting.baseDir}/${name}")
 }

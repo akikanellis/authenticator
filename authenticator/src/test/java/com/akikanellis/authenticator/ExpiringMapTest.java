@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.AbstractMap.SimpleEntry;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -115,5 +116,20 @@ public class ExpiringMapTest {
         Collection<Integer> values = expiringMap.values();
 
         assertThat(values).containsExactly(1, 2, 3);
+    }
+
+    @Test public void gettingEntrySet_returnsASetOfAllEntries(){
+        expiringMap.put("key1", 1);
+        expiringMap.put("key2", 2);
+        expiringMap.put("key3", 3);
+
+        Set<Map.Entry<String, Integer>> values = expiringMap.entrySet();
+
+        //noinspection unchecked
+        assertThat(values).containsExactly(
+                new SimpleEntry<>("key1", 1),
+                new SimpleEntry<>("key2", 2),
+                new SimpleEntry<>("key3", 3)
+        );
     }
 }

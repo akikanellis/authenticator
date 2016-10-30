@@ -106,4 +106,14 @@ public class ExpiringMapTest {
 
         assertThat(actualKeySet).containsExactly("key1", "key2", "key3");
     }
+
+    @Test public void gettingValues_returnsACollectionOfAllValues(){
+        expiringMap.put("key1", 1);
+        expiringMap.put("key2", 2);
+        expiringMap.put("key3", 3);
+
+        Collection<Integer> values = expiringMap.values();
+
+        assertThat(values).containsExactly(1, 2, 3);
+    }
 }

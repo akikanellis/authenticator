@@ -30,9 +30,7 @@ class ExpiringMap<K, V> implements Map<K, V> {
 
     @Override public Set<K> keySet() { return map.keySet(); }
 
-    @Override public Collection<V> values() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    @Override public Collection<V> values() { return map.values(); }
 
     @Override public Set<Entry<K, V>> entrySet() {
         throw new UnsupportedOperationException("Not supported yet.");

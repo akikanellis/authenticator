@@ -27,7 +27,6 @@
         <module name="TypecastParenPad"/>
         <module name="WhitespaceAfter"/>
         <module name="RedundantModifier"/>
-        <module name="LeftCurly"/>
         <module name="RightCurly"/>
         <module name="CovariantEquals"/>
         <module name="EmptyStatement"/>

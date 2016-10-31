@@ -8,7 +8,9 @@
     <description>Ruleset for a Java application</description>
 
     <rule ref="rulesets/java/basic.xml"/>
-    <rule ref="rulesets/java/braces.xml"/>
+    <rule ref="rulesets/java/braces.xml">
+        <exclude name="IfStmtsMustUseBraces"/>
+    </rule>
     <rule ref="rulesets/java/clone.xml"/>
     <rule ref="rulesets/java/design.xml"/>
     <rule ref="rulesets/java/finalizers.xml"/>

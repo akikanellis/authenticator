@@ -1,6 +1,6 @@
 package com.akikanellis.authenticator;
 
-class Preconditions {
+final class Preconditions {
 
     private Preconditions() { throw new AssertionError("No instances."); }
 

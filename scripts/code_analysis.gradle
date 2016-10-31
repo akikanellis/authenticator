@@ -1,3 +1,5 @@
+def configsFolder = 'scripts/configs'
+
 plugins.apply('checkstyle')
 
 checkstyle {
@@ -10,6 +12,7 @@ task checkstyle(type: Checkstyle) {
 
     source 'src'
     include '**/*.java'
+    configFile rootProject.file("$configsFolder/checkstyle_config.xml")
 
     classpath = files()
 }
@@ -26,6 +29,7 @@ task pmd(type: Pmd) {
     ruleSets = []
 
     source = fileTree('src/main/java')
+    ruleSetFiles = rootProject.files("$configsFolder/pmd_ruleset.xml")
 }
 
 plugins.apply('findbugs')
@@ -46,6 +50,7 @@ task findbugs(type: FindBugs) {
 
     classes = files("${project.projectDir}/build/intermediates/classes")
     source = fileTree('src/main/java')
+    excludeFilter = rootProject.file("$configsFolder/findbugs_filter.xml")
 
     classpath = files()
 }

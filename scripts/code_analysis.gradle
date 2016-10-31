@@ -1,0 +1,62 @@
+plugins.apply('checkstyle')
+
+checkstyle {
+    toolVersion = '6.16.1'
+}
+
+task checkstyle(type: Checkstyle) {
+    ignoreFailures false
+    showViolations true
+
+    source 'src'
+    include '**/*.java'
+
+    classpath = files()
+}
+
+plugins.apply('pmd')
+
+pmd {
+    toolVersion = '5.4.1'
+}
+
+task pmd(type: Pmd) {
+    ignoreFailures = false
+
+    ruleSets = []
+
+    source = fileTree('src/main/java')
+}
+
+plugins.apply('findbugs')
+
+task findbugs(type: FindBugs) {
+    ignoreFailures = false
+    effort = 'max'
+    reportLevel = 'low'
+
+    reports {
+        xml {
+            enabled = false
+        }
+        html {
+            enabled = true
+        }
+    }
+
+    classes = files("${project.projectDir}/build/intermediates/classes")
+    source = fileTree('src/main/java')
+
+    classpath = files()
+}
+
+afterEvaluate {
+    tasks.findByName('pmd').dependsOn('assemble')
+    tasks.findByName('findbugs').dependsOn('assemble')
+
+    def checkTask = tasks.findByName('check')
+
+    checkTask.dependsOn('pmd')
+    checkTask.dependsOn('findbugs')
+    checkTask.dependsOn('checkstyle')
+}

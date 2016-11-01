@@ -1,6 +1,7 @@
 package com.akikanellis.authenticator.examples;
 
 import com.akikanellis.authenticator.Authenticator;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -26,6 +27,7 @@ public final class Main {
     private static void startOptionLoop(Scanner scanner) {
         Authenticator authenticator = new Authenticator();
 
+        //noinspection InfiniteLoopStatement
         while (true) {
             System.out.print("Available options:" +
                     "\n1 - Password generation" +
@@ -43,8 +45,8 @@ public final class Main {
                     passwordAuthentication(authenticator, scanner);
                     break;
                 case 3:
-                    System.out.println("Exiting.");
-                    return;
+                    exit();
+                    break;
                 default:
                     System.out.println("Unknown option was selected. Please try again.\n");
                     break;
@@ -99,4 +101,11 @@ public final class Main {
 
         return password;
     }
+
+    private static void exit() {
+        System.out.println("Exiting.");
+        shutdownRemainingThreadsAndExit();
+    }
+
+    @SuppressFBWarnings("DM_EXIT") private static void shutdownRemainingThreadsAndExit() { System.exit(0); }
 }

@@ -6,4 +6,7 @@ targetCompatibility = 1.8
 
 dependencies {
     compile project(':authenticator')
+
+    compile 'com.google.code.findbugs:annotations:3.0.1'
+
 }

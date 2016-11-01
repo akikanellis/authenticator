@@ -89,7 +89,7 @@ public class ExpiringMapTest {
         assertThat(expiringMap.remove("key")).isEqualTo(1);
     }
 
-    private void putSingleEntry() {expiringMap.put("key", 1);}
+    private void putSingleEntry() { expiringMap.put("key", 1); }
 
     @Test public void remove_withKeyMissing_returnsNull() { assertThat(expiringMap.remove("key")).isNull(); }
 

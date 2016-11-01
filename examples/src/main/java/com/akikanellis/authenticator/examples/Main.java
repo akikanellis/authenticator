@@ -1,24 +1,36 @@
 package com.akikanellis.authenticator.examples;
 
 import com.akikanellis.authenticator.Authenticator;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
-public class Main {
+import static java.util.logging.Level.SEVERE;
+
+@SuppressWarnings("PMD.SystemPrintln")
+public final class Main {
+
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+
+    private Main() { throw new AssertionError("No instances."); }
 
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in)) {
+        try (Scanner scanner = new Scanner(System.in, "UTF-8")) {
             startOptionLoop(scanner);
         } catch (Exception e) {
-            System.err.println("Something went wrong: " + e);
+            LOGGER.log(SEVERE, "Something went wrong", e);
+        } finally {
+            exit();
         }
     }
 
     private static void startOptionLoop(Scanner scanner) {
         Authenticator authenticator = new Authenticator();
 
-        while (true) {
+        boolean finished = false;
+        while (!finished) {
             System.out.print("Available options:" +
                     "\n1 - Password generation" +
                     "\n2 - Password verification" +
@@ -35,10 +47,11 @@ public class Main {
                     passwordAuthentication(authenticator, scanner);
                     break;
                 case 3:
-                    System.out.println("Exiting.");
-                    return;
+                    finished = true;
+                    break;
                 default:
                     System.out.println("Unknown option was selected. Please try again.\n");
+                    break;
             }
         }
     }
@@ -60,8 +73,8 @@ public class Main {
         int password = authenticator.generatePassword(userId);
 
         System.out.printf("Password has been generated." +
-                "\nUser id: %s" +
-                "\nPassword: %d\n\n", userId, password);
+                "%nUser id: %s" +
+                "%nPassword: %d%n%n", userId, password);
     }
 
     private static void passwordAuthentication(Authenticator authenticator, Scanner scanner) {
@@ -72,7 +85,7 @@ public class Main {
 
         boolean valid = authenticator.isPasswordValid(userId, password);
 
-        System.out.printf("Verification %s\n\n", valid ? "succeeded" : "failed");
+        System.out.printf("Verification %s%n%n", valid ? "succeeded" : "failed");
     }
 
     private static int extractPassword(Scanner scanner) {
@@ -90,4 +103,11 @@ public class Main {
 
         return password;
     }
+
+    private static void exit() {
+        System.out.println("Exiting.");
+        shutdownRemainingThreadsAndExit();
+    }
+
+    @SuppressFBWarnings("DM_EXIT") private static void shutdownRemainingThreadsAndExit() { System.exit(0); }
 }

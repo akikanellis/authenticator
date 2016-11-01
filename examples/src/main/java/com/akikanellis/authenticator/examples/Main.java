@@ -21,14 +21,16 @@ public final class Main {
             startOptionLoop(scanner);
         } catch (Exception e) {
             LOGGER.log(SEVERE, "Something went wrong", e);
+        } finally {
+            exit();
         }
     }
 
     private static void startOptionLoop(Scanner scanner) {
         Authenticator authenticator = new Authenticator();
 
-        //noinspection InfiniteLoopStatement
-        while (true) {
+        boolean finished = false;
+        while (!finished) {
             System.out.print("Available options:" +
                     "\n1 - Password generation" +
                     "\n2 - Password verification" +
@@ -45,7 +47,7 @@ public final class Main {
                     passwordAuthentication(authenticator, scanner);
                     break;
                 case 3:
-                    exit();
+                    finished = true;
                     break;
                 default:
                     System.out.println("Unknown option was selected. Please try again.\n");

@@ -3,7 +3,7 @@ package com.akikanellis.authenticator;
 import java.util.OptionalInt;
 
 /**
- * A password generator which takes care of returning a generated or cached password to the user.
+ * A password generator which takes care of returning a newly generated or previous password to the user.
  */
 class Generator {
     private final PasswordGenerationAlgorithm passwordGenerationAlgorithm;

@@ -30,20 +30,28 @@ public class AuthenticatorStressTest {
 
     @Test(timeout = 4000)
     public void generatingAndValidatingInHighQuantity_doesNotLockUp() throws InterruptedException {
-        List<String> firstRandomIds = generateRandomIds();
-        List<String> secondRandomIds = generateRandomIds();
-        Random random = new Random();
-        Runnable generatingRunnable = () -> firstRandomIds.forEach(id -> authenticator.generatePassword(id));
-        Runnable validatingRunnable = () ->
-                secondRandomIds.forEach(id -> authenticator.isPasswordValid(id, random.nextInt()));
-        Thread generatingThread = new Thread(generatingRunnable);
-        Thread validatingThread = new Thread(validatingRunnable);
+        Thread generatingThread = createGeneratingThread();
+        Thread validatingThread = createValidatingThread();
 
         generatingThread.start();
         validatingThread.start();
 
         generatingThread.join();
         validatingThread.join();
+    }
+
+    private Thread createGeneratingThread() {
+        List<String> randomIds = generateRandomIds();
+        Runnable generatingRunnable = () -> randomIds.forEach(id -> authenticator.generatePassword(id));
+        return new Thread(generatingRunnable);
+    }
+
+    private Thread createValidatingThread() {
+        List<String> randomIds = generateRandomIds();
+        Random random = new Random();
+        Runnable validatingRunnable = () ->
+                randomIds.forEach(id -> authenticator.isPasswordValid(id, random.nextInt()));
+        return new Thread(validatingRunnable);
     }
 
     private List<String> generateRandomIds() {

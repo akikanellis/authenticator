@@ -48,8 +48,8 @@ class ExpiringMap<K, V> implements Map<K, V> {
      * @param key   key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      * @return the previous value associated with key, or null if there was no mapping for the key
-     * @throws ClassCastException            if the class of the specified key or value prevents it from being stored in
-     *                                       this map
+     * @throws ClassCastException if the class of the specified key or value prevents it from being stored in
+     *                            this map
      */
     @Override public V put(K key, V value) {
         V previousValue = map.put(key, value);

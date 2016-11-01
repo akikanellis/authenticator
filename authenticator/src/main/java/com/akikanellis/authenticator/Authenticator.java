@@ -16,9 +16,7 @@ public class Authenticator {
     private final Generator generator;
     private final Validator validator;
 
-    public Authenticator() {
-        this(30, SECONDS);
-    }
+    public Authenticator() { this(30, SECONDS); }
 
     /* Visible for testing */
     Authenticator(long expiringDelay, TimeUnit timeUnit) {

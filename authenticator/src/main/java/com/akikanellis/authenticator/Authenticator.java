@@ -55,7 +55,7 @@ public class Authenticator {
      *
      * @param userId             the user ID to validate
      * @param passwordToValidate the password to validate with the user ID
-     * @return true if the user ID matches with the password, false if not
+     * @return true if the user ID exists and matches with the password, false if not
      * @throws java.lang.IllegalArgumentException if the user ID is null or empty
      */
     public boolean isPasswordValid(String userId, int passwordToValidate) {

@@ -27,9 +27,9 @@ public class Authenticator {
         PasswordRepository passwordRepository = new PasswordRepository(expiringMap);
 
         Random random = new Random();
-        SixDigitRandom sixDigitRandom = new SixDigitRandom(random);
+        PasswordGenerationAlgorithm passwordGenerationAlgorithm = new PasswordGenerationAlgorithm(random);
 
-        this.generator = new Generator(sixDigitRandom, passwordRepository);
+        this.generator = new Generator(passwordGenerationAlgorithm, passwordRepository);
         this.validator = new Validator(passwordRepository);
     }
 

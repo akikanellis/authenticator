@@ -15,15 +15,15 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GeneratorTest {
-    @Mock private SixDigitRandom random;
+    @Mock private PasswordGenerationAlgorithm passwordGenerationAlgorithm;
     @Mock private PasswordRepository passwordRepository;
     private Generator generator;
 
-    @Before public void beforeEach() { generator = new Generator(random, passwordRepository); }
+    @Before public void beforeEach() { generator = new Generator(passwordGenerationAlgorithm, passwordRepository); }
 
     @Test public void generatingPassword_withNoSetPasswordForUser_generatesNewPassword() {
         when(passwordRepository.getPasswordOfUser("user-id")).thenReturn(OptionalInt.empty());
-        when(random.next()).thenReturn(1);
+        when(passwordGenerationAlgorithm.next()).thenReturn(1);
 
         int password = generator.generate("user-id");
 
@@ -32,7 +32,7 @@ public class GeneratorTest {
 
     @Test public void generatingPassword_withNoSetPasswordForUser_addsNewPasswordToRepository() {
         when(passwordRepository.getPasswordOfUser("user-id")).thenReturn(OptionalInt.empty());
-        when(random.next()).thenReturn(1);
+        when(passwordGenerationAlgorithm.next()).thenReturn(1);
 
         int password = generator.generate("user-id");
 
@@ -44,7 +44,7 @@ public class GeneratorTest {
 
         int password = generator.generate("user-id");
 
-        verifyZeroInteractions(random);
+        verifyZeroInteractions(passwordGenerationAlgorithm);
         assertThat(password).isEqualTo(10);
     }
 }

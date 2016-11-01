@@ -5,16 +5,9 @@ final class Preconditions {
     private Preconditions() { throw new AssertionError("No instances."); }
 
     static String checkNotNullOrEmpty(String s) {
-        checkNotNull(s);
-
-        if (s.isEmpty()) throw new IllegalArgumentException("String can't be empty.");
+        if (s == null) throw new IllegalArgumentException("String is null.");
+        if (s.isEmpty()) throw new IllegalArgumentException("String is empty.");
 
         return s;
-    }
-
-    static <T> T checkNotNull(T reference) {
-        if (reference == null) throw new NullPointerException();
-
-        return reference;
     }
 }

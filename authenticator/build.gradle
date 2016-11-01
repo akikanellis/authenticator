@@ -1,5 +1,5 @@
 group 'com.akikanellis.authenticator'
-version '0.1'
+version '1.0'
 
 apply plugin: 'java'
 apply from: rootProject.file('scripts/extra_tests.gradle')

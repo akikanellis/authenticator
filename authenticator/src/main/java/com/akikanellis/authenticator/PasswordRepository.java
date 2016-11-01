@@ -3,6 +3,9 @@ package com.akikanellis.authenticator;
 import java.util.Map;
 import java.util.OptionalInt;
 
+/**
+ * The password repository holds all the currently valid passwords and provides a slim API for accessing them.
+ */
 class PasswordRepository {
     private final Map<String, Integer> expiringMap;
 

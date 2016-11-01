@@ -2,12 +2,15 @@ package com.akikanellis.authenticator;
 
 import java.util.OptionalInt;
 
+/**
+ * A password generator which takes care of returning a generated or cached password to the user.
+ */
 class Generator {
-    private final SixDigitRandom random;
+    private final PasswordGenerationAlgorithm passwordGenerationAlgorithm;
     private final PasswordRepository passwordRepository;
 
-    Generator(SixDigitRandom random, PasswordRepository passwordRepository) {
-        this.random = random;
+    Generator(PasswordGenerationAlgorithm passwordGenerationAlgorithm, PasswordRepository passwordRepository) {
+        this.passwordGenerationAlgorithm = passwordGenerationAlgorithm;
         this.passwordRepository = passwordRepository;
     }
 
@@ -17,7 +20,7 @@ class Generator {
         if (currentPassword.isPresent()) {
             return currentPassword.getAsInt();
         } else {
-            int generatedPassword = random.next();
+            int generatedPassword = passwordGenerationAlgorithm.next();
             passwordRepository.addPassword(userId, generatedPassword);
             return generatedPassword;
         }

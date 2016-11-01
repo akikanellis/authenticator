@@ -15,14 +15,14 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SixDigitRandomTest {
+public class PasswordGenerationAlgorithmTest {
     @Mock private Random random;
-    private SixDigitRandom sixDigitRandom;
+    private PasswordGenerationAlgorithm passwordGenerationAlgorithm;
 
-    @Before public void beforeEach() { sixDigitRandom = new SixDigitRandom(random); }
+    @Before public void beforeEach() { passwordGenerationAlgorithm = new PasswordGenerationAlgorithm(random); }
 
     @Test public void gettingNext_usesRandom() {
-        sixDigitRandom.next();
+        passwordGenerationAlgorithm.next();
 
         verify(random).nextInt(anyInt());
         verifyNoMoreInteractions(random);
@@ -31,7 +31,7 @@ public class SixDigitRandomTest {
     @Test public void gettingNext_withLowestPossibleValue_generatesANumberWithSixDigits() {
         when(random.nextInt(anyInt())).thenReturn(0);
 
-        int number = sixDigitRandom.next();
+        int number = passwordGenerationAlgorithm.next();
 
         assertThatNumberIsSixDigits(number);
     }
@@ -39,7 +39,7 @@ public class SixDigitRandomTest {
     @Test public void gettingNext_withHighestPossibleValue_generatesANumberWithSixDigits() {
         when(random.nextInt()).thenReturn(899999);
 
-        int number = sixDigitRandom.next();
+        int number = passwordGenerationAlgorithm.next();
 
         assertThatNumberIsSixDigits(number);
     }
@@ -47,7 +47,7 @@ public class SixDigitRandomTest {
     @Test public void gettingNext_withAMediumPossibleValue_generatesANumberWithSixDigits() {
         when(random.nextInt()).thenReturn(50000);
 
-        int number = sixDigitRandom.next();
+        int number = passwordGenerationAlgorithm.next();
 
         assertThatNumberIsSixDigits(number);
     }

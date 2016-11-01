@@ -29,7 +29,7 @@ public class AuthenticatorTest {
     }
 
     @Test public void generatingAPassword_withNullUserID_throwsException() {
-        assertThatExceptionOfType(NullPointerException.class)
+        assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> authenticator.generatePassword(null));
     }
 
@@ -55,7 +55,7 @@ public class AuthenticatorTest {
     }
 
     @Test public void validatingUserWithPassword_withNullUserID_throwsException() {
-        assertThatExceptionOfType(NullPointerException.class)
+        assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> authenticator.isPasswordValid(null, 1));
     }
 

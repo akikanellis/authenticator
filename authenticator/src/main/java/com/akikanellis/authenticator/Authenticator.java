@@ -9,6 +9,9 @@ import java.util.concurrent.TimeUnit;
 import static com.akikanellis.authenticator.Preconditions.checkNotNullOrEmpty;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+/**
+ * A one-time password generator and authenticator. Each password is valid for 30 seconds from the time it was created.
+ */
 public class Authenticator {
     private final Generator generator;
     private final Validator validator;
@@ -36,12 +39,27 @@ public class Authenticator {
         this.validator = validator;
     }
 
+    /**
+     * Generates a 6-digit password for the given user ID.
+     *
+     * @param userId the user ID to generate the password for
+     * @return a 6-digit password that is valid for 30 seconds
+     * @throws java.lang.IllegalArgumentException if the user ID is null or empty
+     */
     public int generatePassword(String userId) {
         checkNotNullOrEmpty(userId);
 
         return generator.generate(userId);
     }
 
+    /**
+     * Validates a user ID against a password.
+     *
+     * @param userId             the user ID to validate
+     * @param passwordToValidate the password to validate with the user ID
+     * @return true if the user ID matches with the password, false if not
+     * @throws java.lang.IllegalArgumentException if the user ID is null or empty
+     */
     public boolean isPasswordValid(String userId, int passwordToValidate) {
         checkNotNullOrEmpty(userId);
 

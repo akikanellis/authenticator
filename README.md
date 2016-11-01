@@ -38,4 +38,4 @@ This application itself is released under **MIT** license, see [LICENSE](./LICEN
 
 All 3rd party open sourced libs distributed with this application are still under their own license.
 
- [1]: jar_url_here
+ [1]: https://github.com/AkiKanellis/authenticator/releases/download/v1.0/authenticator-1.0.jar

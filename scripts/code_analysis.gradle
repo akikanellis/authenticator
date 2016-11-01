@@ -3,65 +3,44 @@ def configsFolder = 'scripts/configs'
 plugins.apply('checkstyle')
 
 checkstyle {
-    toolVersion = '6.16.1'
+    toolVersion = '7.2'
+    configFile rootProject.file("$configsFolder/checkstyle_config.xml")
 }
 
-task checkstyle(type: Checkstyle) {
+tasks.withType(Checkstyle) {
     ignoreFailures false
     showViolations true
-
-    source 'src'
-    include '**/*.java'
-    configFile rootProject.file("$configsFolder/checkstyle_config.xml")
-
-    classpath = files()
 }
 
 plugins.apply('pmd')
 
 pmd {
-    toolVersion = '5.4.1'
+    toolVersion = '5.5.1'
+    ruleSetFiles = rootProject.files("$configsFolder/pmd_ruleset.xml")
 }
 
-task pmd(type: Pmd) {
+tasks.withType(Pmd) {
     ignoreFailures = false
+}
 
-    ruleSets = []
-
-    source = fileTree('src/main/java')
-    ruleSetFiles = rootProject.files("$configsFolder/pmd_ruleset.xml")
+tasks.withType(Pmd).findAll { it.name.toLowerCase().contains('test') }.forEach {
+    it.enabled = false
 }
 
 plugins.apply('findbugs')
 
-task findbugs(type: FindBugs) {
+findbugs {
+    toolVersion = '3.0.1'
+    excludeFilter = rootProject.file("$configsFolder/findbugs_filter.xml")
+}
+
+tasks.withType(FindBugs) {
     ignoreFailures = false
     effort = 'max'
     reportLevel = 'low'
 
     reports {
-        xml {
-            enabled = false
-        }
-        html {
-            enabled = true
-        }
+        xml.enabled = false
+        html.enabled = true
     }
-
-    classes = files("${project.projectDir}/build/classes")
-    source = fileTree('src/main/java')
-    excludeFilter = rootProject.file("$configsFolder/findbugs_filter.xml")
-
-    classpath = files()
-}
-
-afterEvaluate {
-    tasks.findByName('pmd').dependsOn('assemble')
-    tasks.findByName('findbugs').dependsOn('assemble')
-
-    def checkTask = tasks.findByName('check')
-
-    checkTask.dependsOn('pmd')
-    checkTask.dependsOn('findbugs')
-    checkTask.dependsOn('checkstyle')
 }

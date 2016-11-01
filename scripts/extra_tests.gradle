@@ -1,0 +1,48 @@
+// Adds source sets for the integration and stress tests as well as the corresponding tasks.
+
+sourceSets {
+    integrationTest {
+        compileClasspath += sourceSets.test.runtimeClasspath
+        runtimeClasspath += sourceSets.test.runtimeClasspath
+    }
+
+    stressTest {
+        compileClasspath += sourceSets.test.runtimeClasspath
+        runtimeClasspath += sourceSets.test.runtimeClasspath
+    }
+}
+
+task integrationTest(type: Test) {
+    group 'verification'
+    description = "Run the integration tests."
+
+    testClassesDir = project.sourceSets.integrationTest.output.classesDir
+    classpath = project.sourceSets.integrationTest.runtimeClasspath
+}
+
+task stressTest(type: Test) {
+    group 'verification'
+    description = "Run the stress tests."
+
+    testClassesDir = project.sourceSets.stressTest.output.classesDir
+    classpath = project.sourceSets.stressTest.runtimeClasspath
+}
+
+task allTest(type: Test) {
+    group 'verification'
+    description = "Run all the tests."
+
+    dependsOn tasks.withType(Test).findAll { it != allTest }
+}
+
+integrationTest.mustRunAfter test
+stressTest.mustRunAfter integrationTest
+
+tasks.withType(Test) {
+    check.dependsOn it
+
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}

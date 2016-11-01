@@ -1,5 +1,8 @@
 package com.akikanellis.authenticator;
 
+/**
+ * Utilities regarding preconditions in arguments, parameters, fields etc.
+ */
 final class Preconditions {
 
     private Preconditions() { throw new AssertionError("No instances."); }

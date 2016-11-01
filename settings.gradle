@@ -1,1 +1,4 @@
-include ':authenticator', ':examples'
+rootProject.name = 'authenticator-root'
+
+include ':authenticator',
+        ':examples'

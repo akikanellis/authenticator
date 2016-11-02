@@ -19,10 +19,10 @@ int generatedPassword = authenticator.generatePassword("user-id");
 boolean valid = authenticator.isPasswordValid("user-id", password);
 ```
 
-A password is valid for 30 seconds from its creation.
+The User ID can be any non-empty `String`. Each generated password is a 6-digit integer and is valid for 30 seconds from its creation.
 
 ###Examples module
-In the [examples module](examples) you can find an interactive terminal-based example based for the Authenticator library.
+In the [examples module](examples) you can find an interactive terminal-based example for the Authenticator library.
 
 ###Scripts
 If you want to build the whole project, run all the tests and the code analysis tools then run the file:
